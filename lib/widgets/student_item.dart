@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/student.dart'; // Імпортуйте ваш клас Student, якщо потрібно
-
+import '../models/student.dart'; 
 class StudentTile extends StatelessWidget {
   final String firstName;
   final String lastName;
