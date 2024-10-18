@@ -9,7 +9,7 @@ final Map<Department, String> icons = {
   Department.medical: "medical.png"
 };
 
-final Map<Gender, Color> genderColor = {
+final Map<Gender, Color> GenderColor = {
   Gender.male: const Color.fromARGB(255, 67, 43, 109),
   Gender.female: const Color.fromARGB(255, 10, 94, 10)
 };

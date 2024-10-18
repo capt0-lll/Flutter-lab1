@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/student.dart';
+import 'student_item.dart';
 
 class StudentListView extends StatelessWidget {
   final List<Student> students = [
@@ -30,33 +31,16 @@ class StudentListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final student = students[index];
         final iconPath = icons[student.department];
-        final colorTile = genderColor[student.gender];
+        final colorTile = GenderColor[student.gender];
 
         return Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                    color: colorTile, borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                    child: ListTile(
-                        title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(student.firstName + " " + student.lastName,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  )),
-                              Row(children: [
-                                iconPath != null
-                                    ? Image.asset(iconPath,
-                                        width: 60, height: 60)
-                                    : Icon(Icons.help),
-                                Text("  " + student.grade.toString(),
-                                    style: TextStyle(color: Colors.white)),
-                              ])
-                            ]),
-                        tileColor: Colors.transparent))));
+            child: StudentTile(
+                firstName: student.firstName,
+                lastName: student.lastName,
+                iconPath: iconPath,
+                colorTile: colorTile,
+                grade: student.grade));
       },
     );
   }
