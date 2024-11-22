@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/student.dart';
+import '../widgets/students.dart';
 
 class NewStudent extends StatefulWidget {
   final void Function(Student)? onStudentAdded;
+  final int? studentIndex;
 
-  NewStudent({required this.onStudentAdded});
+  NewStudent({required this.onStudentAdded, this.studentIndex});
 
   @override
   NewStudentState createState() => NewStudentState();
@@ -20,13 +22,29 @@ class NewStudentState extends State<NewStudent> {
   Gender? gender = Gender.male;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.studentIndex != null) {
+      _firstNameController.text =
+          StudentListViewState.students[widget.studentIndex!].firstName;
+      _lastNameController.text =
+          StudentListViewState.students[widget.studentIndex!].lastName;
+      _gradeController.text =
+          StudentListViewState.students[widget.studentIndex!].grade.toString();
+      department =
+          StudentListViewState.students[widget.studentIndex!].department;
+      gender = StudentListViewState.students[widget.studentIndex!].gender;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(10),
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.zero, color: Colors.white),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.white),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
@@ -44,10 +62,10 @@ class NewStudentState extends State<NewStudent> {
             ),
             DropdownButton<Department>(
               value: department,
-              items: Department.values.map((dept) {
+              items: Department.values.map((department) {
                 return DropdownMenuItem(
-                  value: dept,
-                  child: Text(dept.toString().split('.').last),
+                  value: department,
+                  child: Text(department.toString().split('.').last),
                 );
               }).toList(),
               onChanged: (value) {
@@ -58,10 +76,10 @@ class NewStudentState extends State<NewStudent> {
             ),
             DropdownButton<Gender>(
               value: gender,
-              items: Gender.values.map((gen) {
+              items: Gender.values.map((gender) {
                 return DropdownMenuItem(
-                  value: gen,
-                  child: Text(gen.toString().split('.').last),
+                  value: gender,
+                  child: Text(gender.toString().split('.').last),
                 );
               }).toList(),
               onChanged: (value) {
@@ -84,10 +102,12 @@ class NewStudentState extends State<NewStudent> {
                         _lastNameController.text,
                       );
                       widget.onStudentAdded!(newStudent);
+                      StudentListViewState.students
+                          .removeAt(widget.studentIndex!);
                     }
                     Navigator.pop(context);
                   },
-                  child: const Text("Add Student"),
+                  child: const Text("Save Student"),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -102,12 +122,13 @@ class NewStudentState extends State<NewStudent> {
   }
 }
 
-void showNewStudentModalWindow(
-    BuildContext context, void Function(Student)? addStudent) {
+void showNewStudentModalWindow(BuildContext context,
+    void Function(Student)? addStudent, int? studentIndex) {
   showModalBottomSheet(
     context: context,
     builder: (ctx) => NewStudent(
       onStudentAdded: addStudent,
+      studentIndex: studentIndex,
     ),
   );
 }

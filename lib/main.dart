@@ -29,9 +29,7 @@ class AppScaffold extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               showNewStudentModalWindow(
-                context,
-                _studentListViewKey.currentState?.addStudent,
-              );
+                  context, _studentListViewKey.currentState?.addStudent, null);
             },
             child: const Icon(Icons.add, size: 40),
           ),
