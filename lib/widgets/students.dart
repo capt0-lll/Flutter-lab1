@@ -36,12 +36,42 @@ class StudentListViewState extends State<StudentListView> {
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: StudentTile(
-            firstName: student.firstName,
-            lastName: student.lastName,
-            iconPath: iconPath,
-            colorTile: colorTile,
-            grade: student.grade,
+          child: Dismissible(
+            key: Key('${student.firstName}_${student.lastName}_$index'),
+            background: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Container(
+                    height: 10,
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(Icons.delete, color: Colors.white),
+                          Text(
+                            "DELETE STUDENT",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ]))),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              setState(() {
+                students.removeAt(index);
+              });
+            },
+            child: StudentTile(
+              firstName: student.firstName,
+              lastName: student.lastName,
+              iconPath: iconPath,
+              colorTile: colorTile,
+              grade: student.grade,
+            ),
           ),
         );
       },
