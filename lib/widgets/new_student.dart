@@ -49,16 +49,30 @@ class NewStudentState extends State<NewStudent> {
           children: [
             TextField(
               controller: _firstNameController,
+              keyboardType: TextInputType.text,
               decoration: const InputDecoration(labelText: "First name"),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z\s]*$')),
+              ],
             ),
             TextField(
               controller: _lastNameController,
+              keyboardType: TextInputType.text,
               decoration: const InputDecoration(labelText: "Last name"),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z\s]*$')),
+              ],
             ),
             TextField(
               controller: _gradeController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: "Grade"),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^[1-9]$|^10$'))
+              ],
+              decoration: const InputDecoration(
+                labelText: "Grade",
+                hintText: "Enter grade between 1 and 10",
+              ),
             ),
             DropdownButton<Department>(
               value: department,
@@ -93,18 +107,22 @@ class NewStudentState extends State<NewStudent> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    if (widget.onStudentAdded != null) {
-                      final newStudent = Student(
-                        department!,
-                        int.parse(_gradeController.text),
-                        gender!,
-                        _firstNameController.text,
-                        _lastNameController.text,
-                      );
+                    final newStudent = Student(
+                      department!,
+                      int.parse(_gradeController.text),
+                      gender!,
+                      _firstNameController.text,
+                      _lastNameController.text,
+                    );
+
+                    if (widget.studentIndex != null) {
                       widget.onStudentAdded!(newStudent);
                       StudentListViewState.students
                           .removeAt(widget.studentIndex!);
+                    } else {
+                      widget.onStudentAdded!(newStudent);
                     }
+
                     Navigator.pop(context);
                   },
                   child: const Text("Save Student"),
