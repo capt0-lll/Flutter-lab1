@@ -3,33 +3,41 @@ import './widgets/students.dart';
 import './widgets/new_student.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MainApp extends StatefulWidget {
+  @override
+  _MainAppState createState() => _MainAppState();
+}
 
+class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: AppView());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: AppScaffold());
   }
 }
 
-class AppView extends StatelessWidget {
+class AppScaffold extends StatelessWidget {
+  final _studentListViewKey = GlobalKey<StudentListViewState>();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Students'),
         actions: [
           ElevatedButton(
-            child: const Icon(Icons.add, size: 40),
             onPressed: () {
-              showNewStudentModalWindow(context);
+              showNewStudentModalWindow(
+                context,
+                _studentListViewKey.currentState?.addStudent,
+              );
             },
+            child: const Icon(Icons.add, size: 40),
           ),
         ],
       ),
-      body: StudentListView(),
+      body: StudentListView(key: _studentListViewKey),
     );
   }
 }

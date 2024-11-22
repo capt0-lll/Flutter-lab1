@@ -8,13 +8,13 @@ class StudentTile extends StatelessWidget {
   final int grade;
 
   const StudentTile({
-    Key? key,
+    super.key,
     required this.firstName,
     required this.lastName,
     required this.iconPath,
     this.colorTile,
     required this.grade,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

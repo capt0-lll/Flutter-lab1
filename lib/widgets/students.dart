@@ -3,10 +3,14 @@ import '../models/student.dart';
 import 'student_item.dart';
 
 class StudentListView extends StatefulWidget {
-  @override
-  _StudentListViewState createState() => _StudentListViewState();
+  const StudentListView({Key? key}) : super(key: key);
 
-  static List<Student> students = [
+  @override
+  StudentListViewState createState() => StudentListViewState();
+}
+
+class StudentListViewState extends State<StudentListView> {
+  final List<Student> students = [
     Student(Department.finance, 7, Gender.female, "Melaniya", "Podolyak"),
     Student(Department.it, 10, Gender.male, "Serhii", "Sternenko"),
     Student(Department.finance, 2, Gender.male, "Ihor", "Lachebkov"),
@@ -15,22 +19,18 @@ class StudentListView extends StatefulWidget {
     Student(Department.medical, 7, Gender.male, "Oleksii", "Kovzhun"),
   ];
 
-  static void addStudent(Student newStudent) {
-    students.add(newStudent);
-  }
-}
-
-class _StudentListViewState extends State<StudentListView> {
-  void refresh() {
-    setState(() {}); // Оновлює список
+  void addStudent(Student newStudent) {
+    setState(() {
+      students.add(newStudent);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: StudentListView.students.length,
+      itemCount: students.length,
       itemBuilder: (context, index) {
-        final student = StudentListView.students[index];
+        final student = students[index];
         final iconPath = icons[student.department];
         final colorTile = GenderColor[student.gender];
 
