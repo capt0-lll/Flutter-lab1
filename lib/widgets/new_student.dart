@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/student.dart';
-import './students.dart';
 
 class NewStudent extends StatefulWidget {
   final void Function(Student)? onStudentAdded;

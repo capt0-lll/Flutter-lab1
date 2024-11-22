@@ -61,9 +61,7 @@ class StudentListViewState extends State<StudentListView> {
                         ]))),
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
-              setState(() {
-                students.removeAt(index);
-              });
+              removeStudent(index);
             },
             child: StudentTile(
               firstName: student.firstName,
@@ -76,5 +74,23 @@ class StudentListViewState extends State<StudentListView> {
         );
       },
     );
+  }
+
+  void removeStudent(int index) {
+    var removedStudent = students[index];
+    setState(() {
+      students.removeAt(index);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Student removed'),
+      action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              students.insert(index, removedStudent);
+            });
+          }),
+    ));
   }
 }
