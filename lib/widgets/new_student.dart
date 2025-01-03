@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/student.dart';
 import '../widgets/students.dart';
+import '../models/department.dart';
+import './departments.dart';
 
 class NewStudent extends StatefulWidget {
   final void Function(Student)? onStudentAdded;
   final int? studentIndex;
 
-  NewStudent({required this.onStudentAdded, this.studentIndex});
+  const NewStudent({super.key, required this.onStudentAdded, this.studentIndex});
 
   @override
   NewStudentState createState() => NewStudentState();
@@ -18,7 +20,7 @@ class NewStudentState extends State<NewStudent> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
 
-  Department? department = Department.finance;
+  Department department = departments[0];
   Gender? gender = Gender.male;
 
   @override
@@ -42,7 +44,7 @@ class NewStudentState extends State<NewStudent> {
     return Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.white),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,10 +78,10 @@ class NewStudentState extends State<NewStudent> {
             ),
             DropdownButton<Department>(
               value: department,
-              items: Department.values.map((department) {
+              items: departments.map((department) {
                 return DropdownMenuItem(
                   value: department,
-                  child: Text(department.toString().split('.').last),
+                  child: Text(department.name),
                 );
               }).toList(),
               onChanged: (value) {
@@ -108,7 +110,7 @@ class NewStudentState extends State<NewStudent> {
                 ElevatedButton(
                   onPressed: () {
                     final newStudent = Student(
-                      department!,
+                      department,
                       int.parse(_gradeController.text),
                       gender!,
                       _firstNameController.text,

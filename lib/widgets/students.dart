@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lab1_eldar_vanin_kiuki_21_8/widgets/new_student.dart';
 import '../models/student.dart';
 import 'student_item.dart';
+import './departments.dart';
+
+// Глобальний ключ для ScaffoldMessenger
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class StudentListView extends StatefulWidget {
   const StudentListView({super.key});
@@ -12,12 +16,12 @@ class StudentListView extends StatefulWidget {
 
 class StudentListViewState extends State<StudentListView> {
   static List<Student> students = [
-    Student(Department.finance, 7, Gender.female, "Melaniya", "Podolyak"),
-    Student(Department.it, 10, Gender.male, "Serhii", "Sternenko"),
-    Student(Department.finance, 2, Gender.male, "Ihor", "Lachebkov"),
-    Student(Department.it, 10, Gender.female, "Hannah", "Kochehura"),
-    Student(Department.law, 7, Gender.male, "Kostyantyn", "Tremboveckii"),
-    Student(Department.medical, 7, Gender.male, "Oleksii", "Kovzhun"),
+    Student(departments[2], 7, Gender.female, "Melaniya", "Podolyak"),
+    Student(departments[3], 10, Gender.male, "Serhii", "Sternenko"),
+    Student(departments[1], 2, Gender.male, "Ihor", "Lachenkov"),
+    Student(departments[0], 10, Gender.female, "Hannah", "Kochehura"),
+    Student(departments[1], 7, Gender.male, "Kostyantyn", "Tremboveckii"),
+    Student(departments[2], 7, Gender.male, "Oleksii", "Kovzhun"),
   ];
 
   void addStudent(Student newStudent) {
@@ -32,7 +36,7 @@ class StudentListViewState extends State<StudentListView> {
       itemCount: students.length,
       itemBuilder: (context, index) {
         final student = students[index];
-        final iconPath = icons[student.department];
+        final iconPath = student.department.icon;
         final colorTile = GenderColor[student.gender];
 
         return Padding(
@@ -89,21 +93,25 @@ class StudentListViewState extends State<StudentListView> {
     );
   }
 
-  void removeStudent(int index) {
-    var removedStudent = students[index];
-    setState(() {
-      students.removeAt(index);
-    });
+void removeStudent(int index) {
+  var removedStudent = students[index];
+  setState(() {
+    students.removeAt(index);
+  });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Student removed'),
-      action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            setState(() {
-              students.insert(index, removedStudent);
-            });
-          }),
-    ));
-  }
-}
+  // Використовуємо глобальний ключ для SnackBar
+  scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+    content: Text('Student removed'),
+    action: SnackBarAction(
+      label: 'Undo',
+      onPressed: () {
+        // Перевірка чи віджет ще змонтований перед оновленням стану
+        if (mounted) {
+          setState(() {
+            students.insert(index, removedStudent);
+          });
+        }
+      }
+    ),
+  ));
+}}

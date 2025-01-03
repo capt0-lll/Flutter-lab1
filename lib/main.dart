@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lab1_eldar_vanin_kiuki_21_8/widgets/tabs_screen.dart';
 import './widgets/students.dart';
 import './widgets/new_student.dart';
 
@@ -7,6 +8,8 @@ void main() {
 }
 
 class MainApp extends StatefulWidget {
+  const MainApp({super.key});
+
   @override
   _MainAppState createState() => _MainAppState();
 }
@@ -14,28 +17,29 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: AppScaffold());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AppScaffold(),
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle( fontFamily: "lato"),
+          bodyMedium: TextStyle( fontFamily: 'lato'),
+          bodySmall: TextStyle( fontFamily: 'lato'),
+        )  
+      ),  
+      darkTheme: ThemeData.dark(),
+      );
   }
 }
 
 class AppScaffold extends StatelessWidget {
-  final _studentListViewKey = GlobalKey<StudentListViewState>();
 
+  AppScaffold({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Students'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              showNewStudentModalWindow(
-                  context, _studentListViewKey.currentState?.addStudent, null);
-            },
-            child: const Icon(Icons.add, size: 40),
-          ),
-        ],
-      ),
-      body: StudentListView(key: _studentListViewKey),
+      body: TabsScreen(),
     );
   }
 }
