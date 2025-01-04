@@ -3,7 +3,6 @@ import './students.dart';
 import './new_student.dart';
 import './departments.dart';
 
-// Передаємо глобальний ключ для SnackBar
 
 class TabsScreen extends StatelessWidget {
   final _studentListViewKey = GlobalKey<StudentListViewState>();
@@ -13,7 +12,7 @@ class TabsScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: ScaffoldMessenger(
-        key: scaffoldMessengerKey, // Передаємо ключ для ScaffoldMessenger
+        key: scaffoldMessengerKey, 
         child: Scaffold(
           bottomNavigationBar: const TabBar(
             tabs: [
@@ -23,7 +22,11 @@ class TabsScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Center(child: DepartmentGridView()),
+              Scaffold(
+                appBar: AppBar(
+                  title: const Text('Departments'),
+                ),
+                body: DepartmentGridView()),
               Scaffold(
                 appBar: AppBar(
                   title: const Text('Students'),
@@ -42,7 +45,7 @@ class TabsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                body: StudentListView(key: _studentListViewKey), // Передаємо ключ StudentListView
+                body: StudentListView(key: _studentListViewKey), 
               ),
             ],
           ),

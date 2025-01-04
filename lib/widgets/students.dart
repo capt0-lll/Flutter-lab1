@@ -4,7 +4,6 @@ import '../models/student.dart';
 import 'student_item.dart';
 import './departments.dart';
 
-// Глобальний ключ для ScaffoldMessenger
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class StudentListView extends StatefulWidget {
@@ -99,19 +98,16 @@ void removeStudent(int index) {
     students.removeAt(index);
   });
 
-  // Використовуємо глобальний ключ для SnackBar
   scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
     content: Text('Student removed'),
     action: SnackBarAction(
       label: 'Undo',
       onPressed: () {
-        // Перевірка чи віджет ще змонтований перед оновленням стану
-        if (mounted) {
-          setState(() {
             students.insert(index, removedStudent);
-          });
-        }
-      }
-    ),
-  ));
-}}
+        },
+      )
+    ));}
+    
+  
+  
+}

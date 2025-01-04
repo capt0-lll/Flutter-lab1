@@ -19,12 +19,13 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: const TextTheme(
-          bodyLarge: TextStyle( fontFamily: "lato"),
-          bodyMedium: TextStyle( fontFamily: 'lato'),
-          bodySmall: TextStyle( fontFamily: 'lato'),
+          bodyLarge: TextStyle( fontFamily: "Lato"),
+          bodyMedium: TextStyle( fontFamily: 'Lato'),
+          bodySmall: TextStyle( fontFamily: 'Lato'),
         )  
       ),  
       darkTheme: ThemeData.dark(),
+    
       home: TabsScreen(),
 
       );
