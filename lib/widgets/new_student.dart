@@ -21,7 +21,7 @@ class NewStudentState extends State<NewStudent> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
 
-  Department department = departments[0];
+  Department department = DepartmentProvider.getDepartments()[0];
   Gender? gender = Gender.male;
 
   @override
@@ -77,7 +77,7 @@ class NewStudentState extends State<NewStudent> {
             ),
             DropdownButton<Department>(
               value: department,
-              items: departments.map((department) {
+              items: DepartmentProvider.getDepartments().map((department) {
                 return DropdownMenuItem(
                   value: department,
                   child: Text(department.name),

@@ -7,7 +7,7 @@ final studentListViewKey = GlobalKey<StudentListViewState>();
 
 class TabsScreen extends StatelessWidget {
 
-  TabsScreen({super.key});
+  const TabsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

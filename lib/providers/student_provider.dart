@@ -1,18 +1,15 @@
 import 'package:lab1_eldar_vanin_kiuki_21_8/providers/department_provider.dart';
 import 'package:lab1_eldar_vanin_kiuki_21_8/models/student.dart';
 
-
-
 class StudentProvider {
-  static List<Student> _students = [
-    Student(departments[2], 7, Gender.female, "Melaniya", "Podolyak"),
-    Student(departments[3], 10, Gender.male, "Serhii", "Sternenko"),
-    Student(departments[1], 2, Gender.male, "Ihor", "Lachenkov"),
-    Student(departments[0], 10, Gender.female, "Hannah", "Kochehura"),
-    Student(departments[1], 7, Gender.male, "Kostyantyn", "Tremboveckii"),
-    Student(departments[2], 7, Gender.male, "Oleksii", "Kovzhun"),
+  static final List<Student> _students = [
+    Student(DepartmentProvider.getDepartments()[2], 7, Gender.female, "Melaniya", "Podolyak"),
+    Student(DepartmentProvider.getDepartments()[3], 10, Gender.male, "Serhii", "Sternenko"),
+    Student(DepartmentProvider.getDepartments()[1], 2, Gender.male, "Ihor", "Lachenkov"),
+    Student(DepartmentProvider.getDepartments()[0], 10, Gender.female, "Hannah", "Kochehura"),
+    Student(DepartmentProvider.getDepartments()[1], 7, Gender.male, "Kostyantyn", "Tremboveckii"),
+    Student(DepartmentProvider.getDepartments()[2], 7, Gender.male, "Oleksii", "Kovzhun"),
   ];
-
 
   static void insertStudent(Student student, int index) {
     _students.insert(index, student);

@@ -11,10 +11,10 @@ class Department {
   Department(this.name, this.icon, this.color, this.id);
 
   int determineStudents() {
-    this.students = [];
+    students = [];
     for (int i = 0; i < StudentProvider.getStudentsCount(); i++) {
-      if (StudentProvider.getStudent(i).department.id == this.id) {
-        this.students.add(StudentProvider.getStudent(i));
+      if (StudentProvider.getStudent(i).department.id == id) {
+        students.add(StudentProvider.getStudent(i));
       }
     }
     return students.length;

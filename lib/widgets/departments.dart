@@ -12,9 +12,9 @@ class DepartmentGridViewState extends State<DepartmentGridView> {
   @override
   Widget build (BuildContext context){
     return GridView.builder(
-      itemCount: departments.length,
+      itemCount: DepartmentProvider.getDepartments().length,
       itemBuilder: (context, index){
-        final department = departments[index];
+        final department = DepartmentProvider.getDepartments()[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: DepartmentTile(
