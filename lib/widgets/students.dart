@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lab1_eldar_vanin_kiuki_21_8/widgets/new_student.dart';
 import '../models/student.dart';
 import 'student_item.dart';
-import './departments.dart';
+import '../providers/student_provider.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -14,27 +14,22 @@ class StudentListView extends StatefulWidget {
 }
 
 class StudentListViewState extends State<StudentListView> {
-  static List<Student> students = [
-    Student(departments[2], 7, Gender.female, "Melaniya", "Podolyak"),
-    Student(departments[3], 10, Gender.male, "Serhii", "Sternenko"),
-    Student(departments[1], 2, Gender.male, "Ihor", "Lachenkov"),
-    Student(departments[0], 10, Gender.female, "Hannah", "Kochehura"),
-    Student(departments[1], 7, Gender.male, "Kostyantyn", "Tremboveckii"),
-    Student(departments[2], 7, Gender.male, "Oleksii", "Kovzhun"),
-  ];
 
-  void addStudent(Student newStudent) {
+  void addOneStudent(Student newStudent) {
     setState(() {
-      students.add(newStudent);
+      StudentProvider.addStudent(newStudent);
     });
+  }
+  void update() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: students.length,
+      itemCount: StudentProvider.getStudentsCount(),
       itemBuilder: (context, index) {
-        final student = students[index];
+        final student = StudentProvider.getStudent(index);
         final iconPath = student.department.icon;
         final colorTile = GenderColor[student.gender];
 
@@ -73,7 +68,9 @@ class StudentListViewState extends State<StudentListView> {
                   child: Material(
                       child: InkWell(
                     onTap: () {
-                      showNewStudentModalWindow(context, addStudent, index);
+                      setState(() {
+                        showNewStudentModalWindow(context, addOneStudent, index);
+                      });
                     },
                     splashColor: Colors.blue,
                     child: Padding(
@@ -93,9 +90,9 @@ class StudentListViewState extends State<StudentListView> {
   }
 
 void removeStudent(int index) {
-  var removedStudent = students[index];
+  var removedStudent = StudentProvider.getStudent(index);
   setState(() {
-    students.removeAt(index);
+    StudentProvider.deleteStudent(index);
   });
 
   scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
@@ -103,10 +100,14 @@ void removeStudent(int index) {
     action: SnackBarAction(
       label: 'Undo',
       onPressed: () {
-            students.insert(index, removedStudent);
-        },
-      )
-    ));}
+        StudentProvider.insertStudent(removedStudent, index);
+
+        setState(() { });
+})
+  
+  
+  ));
+    }
     
   
   

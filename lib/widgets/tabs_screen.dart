@@ -3,9 +3,11 @@ import './students.dart';
 import './new_student.dart';
 import './departments.dart';
 
+final studentListViewKey = GlobalKey<StudentListViewState>();
 
 class TabsScreen extends StatelessWidget {
-  final _studentListViewKey = GlobalKey<StudentListViewState>();
+
+  TabsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +35,10 @@ class TabsScreen extends StatelessWidget {
                   actions: [
                     ElevatedButton(
                       onPressed: () {
-                        if (_studentListViewKey.currentState != null) {
+                        if (studentListViewKey.currentState != null) {
                           showNewStudentModalWindow(
                             context,
-                            _studentListViewKey.currentState?.addStudent,
+                            studentListViewKey.currentState?.addOneStudent,
                             null,
                           );
                         }
@@ -45,7 +47,7 @@ class TabsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                body: StudentListView(key: _studentListViewKey), 
+                body: StudentListView(key: studentListViewKey), 
               ),
             ],
           ),

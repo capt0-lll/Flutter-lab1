@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/student.dart';
-import '../widgets/students.dart';
 import '../models/department.dart';
-import './departments.dart';
+import '../providers/department_provider.dart';
+import '../providers/student_provider.dart';
+import './tabs_screen.dart';
 
 class NewStudent extends StatefulWidget {
   final void Function(Student)? onStudentAdded;
   final int? studentIndex;
-
+ 
   const NewStudent({super.key, required this.onStudentAdded, this.studentIndex});
 
   @override
@@ -27,15 +28,13 @@ class NewStudentState extends State<NewStudent> {
   void initState() {
     super.initState();
     if (widget.studentIndex != null) {
-      _firstNameController.text =
-          StudentListViewState.students[widget.studentIndex!].firstName;
-      _lastNameController.text =
-          StudentListViewState.students[widget.studentIndex!].lastName;
-      _gradeController.text =
-          StudentListViewState.students[widget.studentIndex!].grade.toString();
-      department =
-          StudentListViewState.students[widget.studentIndex!].department;
-      gender = StudentListViewState.students[widget.studentIndex!].gender;
+      Student student = StudentProvider.getStudent(widget.studentIndex!);
+
+      _firstNameController.text = student.firstName;
+      _lastNameController.text = student.lastName;
+      _gradeController.text = student.grade.toString();
+      department = student.department;
+      gender = student.gender;
     }
   }
 
@@ -118,14 +117,13 @@ class NewStudentState extends State<NewStudent> {
                     );
 
                     if (widget.studentIndex != null) {
-                      widget.onStudentAdded!(newStudent);
-                      StudentListViewState.students
-                          .removeAt(widget.studentIndex!);
+                      StudentProvider.updateStudent(newStudent, widget.studentIndex!);
                     } else {
-                      widget.onStudentAdded!(newStudent);
+                      StudentProvider.addStudent(newStudent);
                     }
-
+                    
                     Navigator.pop(context);
+                    studentListViewKey.currentState?.update();
                   },
                   child: const Text("Save Student"),
                 ),
@@ -150,5 +148,6 @@ void showNewStudentModalWindow(BuildContext context,
       onStudentAdded: addStudent,
       studentIndex: studentIndex,
     ),
+
   );
 }
