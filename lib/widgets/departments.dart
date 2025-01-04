@@ -16,6 +16,7 @@ class DepartmentGridView extends StatefulWidget {
 }
 
 class DepartmentGridViewState extends State<DepartmentGridView> {
+  @override
   Widget build (BuildContext context){
     return GridView.builder(
       itemCount: departments.length,

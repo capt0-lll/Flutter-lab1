@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lab1_eldar_vanin_kiuki_21_8/widgets/tabs_screen.dart';
-import './widgets/students.dart';
-import './widgets/new_student.dart';
 
 void main() {
   runApp(MainApp());
@@ -19,7 +17,6 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AppScaffold(),
       theme: ThemeData(
         textTheme: const TextTheme(
           bodyLarge: TextStyle( fontFamily: "lato"),
@@ -28,18 +25,9 @@ class _MainAppState extends State<MainApp> {
         )  
       ),  
       darkTheme: ThemeData.dark(),
+      home: TabsScreen(),
+
       );
   }
 }
 
-class AppScaffold extends StatelessWidget {
-
-  AppScaffold({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: TabsScreen(),
-    );
-  }
-}

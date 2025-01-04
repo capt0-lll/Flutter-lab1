@@ -5,9 +5,9 @@ class DepartmentTile extends StatelessWidget {
   final Department department;
 
   const DepartmentTile({
-    Key? key,
+    super.key,
     required this.department,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

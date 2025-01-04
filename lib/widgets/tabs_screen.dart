@@ -4,15 +4,16 @@ import './new_student.dart';
 import './departments.dart';
 
 // Передаємо глобальний ключ для SnackBar
+
 class TabsScreen extends StatelessWidget {
   final _studentListViewKey = GlobalKey<StudentListViewState>();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey, // Встановлюємо глобальний ключ для ScaffoldMessenger
-      home: DefaultTabController(
-        length: 2,
+    return DefaultTabController(
+      length: 2,
+      child: ScaffoldMessenger(
+        key: scaffoldMessengerKey, // Передаємо ключ для ScaffoldMessenger
         child: Scaffold(
           bottomNavigationBar: const TabBar(
             tabs: [
@@ -31,14 +32,17 @@ class TabsScreen extends StatelessWidget {
                       onPressed: () {
                         if (_studentListViewKey.currentState != null) {
                           showNewStudentModalWindow(
-                            context, _studentListViewKey.currentState?.addStudent, null);
+                            context,
+                            _studentListViewKey.currentState?.addStudent,
+                            null,
+                          );
                         }
                       },
                       child: const Icon(Icons.add, size: 30),
                     ),
                   ],
                 ),
-                body: StudentListView(key: _studentListViewKey), // Передача GlobalKey
+                body: StudentListView(key: _studentListViewKey), // Передаємо ключ StudentListView
               ),
             ],
           ),
