@@ -8,12 +8,13 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<Scaffol
 
 class StudentListView extends StatefulWidget {
   const StudentListView({super.key});
-
+  
   @override
   StudentListViewState createState() => StudentListViewState();
 }
 
 class StudentListViewState extends State<StudentListView> {
+  bool _isLoading = false;
 
   void addOneStudent(Student newStudent) {
     setState(() {
@@ -25,14 +26,34 @@ class StudentListViewState extends State<StudentListView> {
   }
 
   @override
+  void initState() {
+    _getStudents();
+    super.initState();
+  }
+  _getStudents() async {
+    setState(() {
+    _isLoading = true;
+      
+    });
+    
+    await StudentProvider.getHttpStudents();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Stack(children: [ListView.builder(
+      
       itemCount: StudentProvider.getStudentsCount(),
       itemBuilder: (context, index) {
         final student = StudentProvider.getStudent(index);
         final iconPath = student.department.icon;
         final colorTile = GenderColor[student.gender];
-
+       
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Dismissible(
@@ -61,6 +82,7 @@ class StudentListViewState extends State<StudentListView> {
                           ]))),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
+                (()async{await StudentProvider.getHttpStudents();});
                 removeStudent(index);
               },
               child: ClipRRect(
@@ -86,13 +108,22 @@ class StudentListViewState extends State<StudentListView> {
                   )))),
         );
       },
+    
+    ),
+    if (_isLoading)
+      Center(
+        child: CircularProgressIndicator(),
+      )
+    ]
     );
+    
   }
 
 void removeStudent(int index) {
+
   var removedStudent = StudentProvider.getStudent(index);
   setState(() {
-    StudentProvider.deleteStudent(index);
+    StudentProvider.deleteStudentLocal(index);
   });
 
   scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
@@ -103,11 +134,17 @@ void removeStudent(int index) {
         StudentProvider.insertStudent(removedStudent, index);
 
         setState(() { });
-})
-  
-  
-  ));
-    }
+      },
+    )
+  )).closed.then((reasom){
+    if (reasom != SnackBarClosedReason.action) {
+
+      StudentProvider.deleteHttpStudent(removedStudent.id!);
+      }
+    }); 
+    
+    
+  }
     
   
   

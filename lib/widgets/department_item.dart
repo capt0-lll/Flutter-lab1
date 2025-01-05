@@ -9,6 +9,7 @@ class DepartmentTile extends StatelessWidget {
     required this.department,
   });
 
+
   @override
   Widget build(BuildContext context) {
     return Container(

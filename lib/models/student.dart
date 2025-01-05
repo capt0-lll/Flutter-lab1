@@ -10,12 +10,12 @@ final Map<Gender, Color> GenderColor = {
 enum Gender { male, female }
 
 class Student {
+  late final String? id;
   String firstName;
   String lastName;
   Gender gender;
   int grade;
   Department department;
 
-  Student(
-      this.department, this.grade, this.gender, this.firstName, this.lastName);
-}
+  Student(this.department, this.grade, this.gender, this.firstName, this.lastName, [this.id]);
+} 

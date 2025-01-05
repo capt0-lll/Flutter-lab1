@@ -23,18 +23,21 @@ class NewStudentState extends State<NewStudent> {
 
   Department department = DepartmentProvider.getDepartments()[0];
   Gender? gender = Gender.male;
+  String? id;
 
   @override
   void initState() {
     super.initState();
     if (widget.studentIndex != null) {
       Student student = StudentProvider.getStudent(widget.studentIndex!);
-
+      ()async{await StudentProvider.getHttpStudents();
+      };
       _firstNameController.text = student.firstName;
       _lastNameController.text = student.lastName;
       _gradeController.text = student.grade.toString();
       department = student.department;
       gender = student.gender;
+      id = student.id;
     }
   }
 
@@ -114,6 +117,7 @@ class NewStudentState extends State<NewStudent> {
                       gender!,
                       _firstNameController.text,
                       _lastNameController.text,
+                      id,
                     );
 
                     if (widget.studentIndex != null) {
@@ -121,7 +125,6 @@ class NewStudentState extends State<NewStudent> {
                     } else {
                       StudentProvider.addStudent(newStudent);
                     }
-                    
                     Navigator.pop(context);
                     studentListViewKey.currentState?.update();
                   },
